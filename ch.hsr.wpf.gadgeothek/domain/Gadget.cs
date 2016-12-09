@@ -26,10 +26,22 @@ namespace ch.hsr.wpf.gadgeothek.domain
         public Gadget(string name)
         {
             Name = name;
+            InventoryNumber = GenerateInventoryNumber();
+            Condition = Condition.New;
+        }
+
+        public Gadget(string name, string inventoryNumber)
+        {
+            Name = name;
+            InventoryNumber = inventoryNumber;
+            Condition = Condition.New;
+        }
+
+        public static string GenerateInventoryNumber()
+        {
             var bits = Guid.NewGuid().ToByteArray().Take(8).ToArray();
             var nr = BitConverter.ToUInt64(bits, 0);
-            InventoryNumber = nr.ToString();
-            Condition = Condition.New;
+            return nr.ToString();
         }
 
         public override int GetHashCode()
