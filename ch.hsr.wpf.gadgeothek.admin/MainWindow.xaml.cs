@@ -16,6 +16,7 @@ using System.Configuration;
 using ch.hsr.wpf.gadgeothek.service;
 using ch.hsr.wpf.gadgeothek.domain;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace ch.hsr.wpf.gadgeothek.admin
 {
@@ -24,7 +25,7 @@ namespace ch.hsr.wpf.gadgeothek.admin
     /// </summary>
     public partial class MainWindow : Window
     {
-        private LibraryAdminService libraryAdminService;
+        public LibraryAdminService libraryAdminService;
         public ObservableCollection<Gadget> Gadgets { get; set; }
 
         public MainWindow()
@@ -52,31 +53,40 @@ namespace ch.hsr.wpf.gadgeothek.admin
 
         private void addGadget_Click(object sender, RoutedEventArgs e)
         {
-            var addNewGadgetWindow = new AddGadget();
-
+            var addNewGadgetWindow = new AddGadget(this);
             addNewGadgetWindow.Show();
         }
 
         private void removeGadget_Click(object sender, RoutedEventArgs e)
         {
-            var selectedGadget = (Gadget) gadgetsGrid.SelectedItem;
-        
-            if(selectedGadget != null)
+            try
             {
-                MessageBoxResult dialogResult = MessageBox.Show($"Sind Sie sicher, dass Sie{Environment.NewLine}{Environment.NewLine}{selectedGadget.FullDescription()}{Environment.NewLine}{Environment.NewLine}löschen möchten?", "Löschen bestätigen", MessageBoxButton.YesNo);
+                var selectedGadget = (Gadget)gadgetsGrid.SelectedItem;
 
-                if(dialogResult == MessageBoxResult.Yes)
+                if (selectedGadget != null)
                 {
-                    if(libraryAdminService.DeleteGadget(selectedGadget))
+                    MessageBoxResult dialogResult = MessageBox.Show($"Sind Sie sicher, dass Sie{Environment.NewLine}{Environment.NewLine}{selectedGadget.FullDescription()}{Environment.NewLine}{Environment.NewLine}löschen möchten?", "Löschen bestätigen", MessageBoxButton.YesNo);
+
+                    if (dialogResult == MessageBoxResult.Yes)
                     {
-                        Gadgets.Remove(selectedGadget);
-                    } else
-                    {
-                        MessageBox.Show("Fehler beim Löschen des Gadgets. Bitte versuchen Sie es nochmals.", "Löschen fehlgeschlagen", MessageBoxButton.OK);
+                        if (libraryAdminService.DeleteGadget(selectedGadget))
+                        {
+                            Gadgets.Remove(selectedGadget);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Fehler beim Löschen des Gadgets. Bitte versuchen Sie es nochmals.", "Löschen fehlgeschlagen", MessageBoxButton.OK);
+                        }
                     }
-                    
                 }
+            } catch(InvalidCastException exception)
+            {
+                MessageBox.Show("Fehler beim Löschen des Gadgets. Bitte versuchen Sie es nochmals.", "Löschen fehlgeschlagen", MessageBoxButton.OK);
+                Debug.Print(exception.ToString());
             }
+
+
+            
         }
     }
 }
