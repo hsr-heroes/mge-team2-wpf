@@ -10,26 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace ch.hsr.wpf.gadgeothek.admin
 {
     /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
+    /// Interaktionslogik für AddGadget.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddGadget : Window
     {
-        public MainWindow()
+        public AddGadget()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var addNewGadgetWindow = new AddGadget();
-
-            addNewGadgetWindow.Show();
         }
     }
 }
