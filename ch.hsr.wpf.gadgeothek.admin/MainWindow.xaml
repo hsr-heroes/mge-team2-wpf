@@ -1,0 +1,26 @@
+﻿<Window x:Class="ch.hsr.wpf.gadgeothek.admin.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ch.hsr.wpf.gadgeothek.admin"
+        mc:Ignorable="d"
+        Title="Gadgeothek" Height="350" MinHeight="350" MinWidth="525" Width="525">
+    <Grid>
+        <TabControl x:Name="tabControl" MinHeight="319" VerticalAlignment="Stretch">
+            <TabItem Header="Gadgets">
+                <Grid Background="#FFE5E5E5">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="18" Margin="0,5,0,5" VerticalAlignment="Top">
+                        <Button Content="Gadget hinzufügen" Width="Auto" Height="Auto" Margin="5,0,0,0" Padding="15,0,15,0" Click="Button_Click"/>
+                        <Button Content="Gadget löschen" Width="Auto" Height="Auto" Margin="5,0,0,0" Padding="15,0,15,0"/>
+                    </StackPanel>
+                    <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,28,0,0"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Ausleihe">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
