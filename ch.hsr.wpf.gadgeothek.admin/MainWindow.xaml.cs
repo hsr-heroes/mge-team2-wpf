@@ -40,11 +40,16 @@ namespace ch.hsr.wpf.gadgeothek.admin
             Gadgets = new ObservableCollection<Gadget>(gadgets);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void addGadget_Click(object sender, RoutedEventArgs e)
         {
             var addNewGadgetWindow = new AddGadget();
 
             addNewGadgetWindow.Show();
+        }
+
+        private void removeGadget_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
