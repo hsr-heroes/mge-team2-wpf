@@ -14,7 +14,15 @@
                         <Button Content="Gadget hinzufügen" Width="Auto" Height="Auto" Margin="5,0,0,0" Padding="15,0,15,0" Click="Button_Click"/>
                         <Button Content="Gadget löschen" Width="Auto" Height="Auto" Margin="5,0,0,0" Padding="15,0,15,0"/>
                     </StackPanel>
-                    <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch" VerticalAlignment="Top" MinHeight="100" Margin="0,28,0,0" ItemsSource="{Binding Gadgets}" AutoGenerateColumns="True" />
+                    <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch" VerticalAlignment="Top" MinHeight="100" Margin="0,28,0,0" ItemsSource="{Binding Gadgets}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Width="40" IsReadOnly="True" Binding="{Binding InventoryNumber}" />
+                            <DataGridTextColumn Header="Name" IsReadOnly="True" Binding="{Binding Name}" />
+                            <DataGridTextColumn Header="Hersteller" IsReadOnly="True" Binding="{Binding Manufacturer}" />
+                            <DataGridTextColumn Header="Preis" IsReadOnly="True" Binding="{Binding Price}" />
+                            <DataGridTextColumn Header="Zustand" IsReadOnly="True" Binding="{Binding Condition}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Ausleihe">
