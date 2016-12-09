@@ -14,7 +14,7 @@
                         <Button Content="Gadget hinzufügen" Width="Auto" Height="Auto" Margin="5,0,0,0" Padding="15,0,15,0" Click="Button_Click"/>
                         <Button Content="Gadget löschen" Width="Auto" Height="Auto" Margin="5,0,0,0" Padding="15,0,15,0"/>
                     </StackPanel>
-                    <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,28,0,0"/>
+                    <DataGrid x:Name="dataGrid" HorizontalAlignment="Stretch" VerticalAlignment="Top" MinHeight="100" Margin="0,28,0,0" ItemsSource="{Binding Gadgets}" AutoGenerateColumns="True" />
                 </Grid>
             </TabItem>
             <TabItem Header="Ausleihe">

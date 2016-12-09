@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Configuration;
+using ch.hsr.wpf.gadgeothek.service;
+using ch.hsr.wpf.gadgeothek.domain;
+using System.Collections.ObjectModel;
 
 namespace ch.hsr.wpf.gadgeothek.admin
 {
@@ -20,9 +24,20 @@ namespace ch.hsr.wpf.gadgeothek.admin
     /// </summary>
     public partial class MainWindow : Window
     {
+        private LibraryAdminService libraryAdminService;
+        public ObservableCollection<Gadget> Gadgets { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = this;
+
+            libraryAdminService = new LibraryAdminService(ConfigurationManager.AppSettings.Get("server")?.ToString());
+
+            var gadgets = libraryAdminService.GetAllGadgets();
+
+            Gadgets = new ObservableCollection<Gadget>(gadgets);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
