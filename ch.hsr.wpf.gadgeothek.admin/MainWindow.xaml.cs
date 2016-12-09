@@ -37,7 +37,17 @@ namespace ch.hsr.wpf.gadgeothek.admin
 
             var gadgets = libraryAdminService.GetAllGadgets();
 
-            Gadgets = new ObservableCollection<Gadget>(gadgets);
+
+            if(gadgets.Count > 0)
+            {
+                Gadgets = new ObservableCollection<Gadget>(gadgets);
+
+                gadgetsGrid.SelectedIndex = 0;
+            } else
+            {
+                MessageBox.Show("Keine Gadgets vorhanden. Bitte fügen Sie zuerst ein Gadget hinzu.", "Keine Gadgets vorhanden", MessageBoxButton.OK);
+            }
+
         }
 
         private void addGadget_Click(object sender, RoutedEventArgs e)
@@ -49,7 +59,24 @@ namespace ch.hsr.wpf.gadgeothek.admin
 
         private void removeGadget_Click(object sender, RoutedEventArgs e)
         {
+            var selectedGadget = (Gadget) gadgetsGrid.SelectedItem;
+        
+            if(selectedGadget != null)
+            {
+                MessageBoxResult dialogResult = MessageBox.Show($"Sind Sie sicher, dass Sie{Environment.NewLine}{Environment.NewLine}{selectedGadget.FullDescription()}{Environment.NewLine}{Environment.NewLine}löschen möchten?", "Löschen bestätigen", MessageBoxButton.YesNo);
 
+                if(dialogResult == MessageBoxResult.Yes)
+                {
+                    if(libraryAdminService.DeleteGadget(selectedGadget))
+                    {
+                        Gadgets.Remove(selectedGadget);
+                    } else
+                    {
+                        MessageBox.Show("Fehler beim Löschen des Gadgets. Bitte versuchen Sie es nochmals.", "Löschen fehlgeschlagen", MessageBoxButton.OK);
+                    }
+                    
+                }
+            }
         }
     }
 }
