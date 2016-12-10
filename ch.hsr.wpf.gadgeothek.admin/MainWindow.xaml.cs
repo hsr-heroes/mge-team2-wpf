@@ -17,6 +17,7 @@ using ch.hsr.wpf.gadgeothek.service;
 using ch.hsr.wpf.gadgeothek.domain;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading;
 
 namespace ch.hsr.wpf.gadgeothek.admin
 {
@@ -27,6 +28,7 @@ namespace ch.hsr.wpf.gadgeothek.admin
     {
         public LibraryAdminService libraryAdminService;
         public ObservableCollection<Gadget> Gadgets { get; set; }
+        public ObservableCollection<Loan> Loans { get; set; }
 
         public MainWindow()
         {
@@ -48,6 +50,35 @@ namespace ch.hsr.wpf.gadgeothek.admin
             {
                 MessageBox.Show("Keine Gadgets vorhanden. Bitte fügen Sie zuerst ein Gadget hinzu.", "Keine Gadgets vorhanden", MessageBoxButton.OK);
             }
+
+
+            var loans = libraryAdminService.GetAllLoans();
+            if (loans.Count > 0)
+            {
+                Loans = new ObservableCollection<Loan>(loans);
+
+                loansGrid.SelectedIndex = 0;
+            }
+
+            Task.Run(() =>
+            {
+                while(true)
+                {
+                    Thread.Sleep(5000);
+                    Dispatcher.Invoke(() =>
+                    {
+                        loans = libraryAdminService.GetAllLoans();
+                        if (loans.Count > 0)
+                        {
+                            Loans.Clear();
+
+                            loans.ForEach(Loans.Add);
+                        }
+                    });
+                }
+                
+            });
+
 
         }
 

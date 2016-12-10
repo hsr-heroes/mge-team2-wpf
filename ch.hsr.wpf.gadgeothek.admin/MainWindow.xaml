@@ -14,7 +14,7 @@
                         <Button x:Name="addGadget" Content="Gadget hinzufügen" Width="Auto" Height="Auto" Margin="5,0,0,0" Padding="15,0,15,0" Click="addGadget_Click" />
                         <Button x:Name="removeGadget" Content="Gadget löschen" Width="Auto" Height="Auto" Margin="5,0,0,0" Padding="15,0,15,0" Click="removeGadget_Click" />
                     </StackPanel>
-                    <DataGrid x:Name="gadgetsGrid" HorizontalAlignment="Stretch" CanUserAddRows="False"  VerticalAlignment="Top" MinHeight="100" Margin="0,28,0,0" ColumnWidth="*" ItemsSource="{Binding Gadgets}" AutoGenerateColumns="False">
+                    <DataGrid x:Name="gadgetsGrid" HorizontalAlignment="Stretch" CanUserAddRows="False"  VerticalAlignment="Top" Margin="0,28,0,0" ColumnWidth="*" ItemsSource="{Binding Gadgets}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Width="40" IsReadOnly="True" Binding="{Binding InventoryNumber}" />
                             <DataGridTextColumn Header="Name" IsReadOnly="True" Binding="{Binding Name}" />
@@ -26,7 +26,19 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Ausleihe">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="loansGrid" HorizontalAlignment="Stretch" CanUserAddRows="False"  VerticalAlignment="Top" ColumnWidth="*" ItemsSource="{Binding Loans}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Width="40" IsReadOnly="True" Binding="{Binding Id}" />
+                            <DataGridTextColumn Header="Kunde" IsReadOnly="True" Binding="{Binding Customer.Name}" />
+                            <DataGridTextColumn Header="Gadget" IsReadOnly="True" Binding="{Binding Gadget.Name}" />
+                            <DataGridTextColumn Header="Ausgeliehen am" IsReadOnly="True" Binding="{Binding PickupDate, StringFormat=\{0:dd.MM.yyyy\}}" />
+                            <DataGridTextColumn Header="Zurück bis" IsReadOnly="True" Binding="{Binding OverDueDate, StringFormat=\{0:dd.MM.yyyy\}}" />
+                            <DataGridCheckBoxColumn Header="Fällig" IsReadOnly="True" Binding="{Binding IsOverdue, Mode=OneWay}" />
+                            <DataGridCheckBoxColumn Header="Zurückgegeben" IsReadOnly="True" Binding="{Binding WasReturned, Mode=OneWay}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </TabItem>
         </TabControl>
 
