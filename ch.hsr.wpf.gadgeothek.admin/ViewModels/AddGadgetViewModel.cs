@@ -18,81 +18,70 @@ namespace ch.hsr.wpf.gadgeothek.admin.ViewModels
         private ICommand _saveGadgetCommand;
         public ICommand SaveGadgetCommand => _saveGadgetCommand ?? (_saveGadgetCommand = new RelayCommand<Window>((x) => SaveGadget(x)));
 
-        public bool FormIsValid { get; set; } = false;
-
-        public Gadget Gadget { get; set; } = new Gadget("");
-     
-        public string InventoryNumber {
+        private bool _formIsValid;
+        public bool FormIsValid
+        {
             get
             {
-                return Gadget.InventoryNumber;
+                return _formIsValid;
             }
             set
             {
-                Gadget.InventoryNumber = value;
-
-                validateForm();                
+                SetProperty(ref _formIsValid, value, nameof(FormIsValid));
             }
         }
-        
+
+        private string _name;
         public string Name
         {
             get
             {
-                return Gadget.Name;
+                return _name;
             }
             set
             {
-                Gadget.Name = value;
-
+                SetProperty(ref _name, value, nameof(Name));
                 validateForm();
             }
         }
 
+        private string _manufacturer;
         public string Manufacturer {
             get {
-                return Gadget.Manufacturer;
+                return _manufacturer;
             }
             set {
-                Gadget.Manufacturer = value;
-
+                SetProperty(ref _manufacturer, value, nameof(Manufacturer));
                 validateForm();
-
-                OnPropertyChanged();
             }
         }
 
+        private double _price;
         public double Price
         {
             get
             {
-                return Gadget.Price;
+                return _price;
             }
             set
             {
-                Gadget.Price = value;
-
+                SetProperty(ref _price, value, nameof(Price));
                 validateForm();
-
-                OnPropertyChanged();
             }
         }
 
 
-
+        private domain.Condition _condition;
         public domain.Condition Condition
         {
             get
             {
-                return Gadget.Condition;
+                return _condition;
             }
             set
             {
-                Gadget.Condition = value;
-
+                SetProperty(ref _condition, value, nameof(Condition));
                 validateForm();
-
-                OnPropertyChanged();
             }
         }
 
@@ -101,8 +90,6 @@ namespace ch.hsr.wpf.gadgeothek.admin.ViewModels
         public AddGadgetViewModel(MainWindowViewModel mainWindowViewModel)
         {
            _mainWindowViewModel = mainWindowViewModel;
-
-            this.Gadget = new Gadget("");
         }
 
         public void CloseDialog(Window window)
@@ -112,19 +99,19 @@ namespace ch.hsr.wpf.gadgeothek.admin.ViewModels
 
         private void validateForm()
         {
-            if (Gadget.Name == null || Gadget.Name.Length <= 0)
+            if (_name == null || _name.Length <= 0)
             {
                 FormIsValid = false;
                 return;
             }
 
-            if (Gadget.Manufacturer == null || Gadget.Manufacturer.Length <= 0)
+            if (_manufacturer == null || _manufacturer.Length <= 0)
             {
                 FormIsValid = false;
                 return;
             }
 
-            if (Gadget.Price <= 0.0)
+            if (_price <= 0.0)
             {
                 FormIsValid = false;
                 return;
@@ -138,9 +125,15 @@ namespace ch.hsr.wpf.gadgeothek.admin.ViewModels
 
         public void SaveGadget(Window window)
         {
-            if (_mainWindowViewModel.libraryAdminService.AddGadget(Gadget))
-             {
-                _mainWindowViewModel.Gadgets.Add(Gadget);
+            var newGadget = new Gadget(_name)
+            {
+                Condition = _condition,
+                Manufacturer = _manufacturer,
+                Price = _price
+            };
+
+            if (_mainWindowViewModel.libraryAdminService.AddGadget(newGadget)) {
+                _mainWindowViewModel.Gadgets.Add(newGadget);
                  window.Close();
              }
              else
