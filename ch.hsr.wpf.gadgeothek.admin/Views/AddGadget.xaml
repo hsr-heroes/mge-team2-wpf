@@ -34,9 +34,6 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0">ID</Label>
-        <Label Grid.Row="0" Grid.Column="1" x:Name="inventoryNumber" Content="{Binding InventoryNumber}" />
-
         <Label Grid.Row="1" Grid.Column="0">Name</Label>
         <TextBox Grid.Row="1" Grid.Column="1" Margin="5" x:Name="textName" Text="{Binding Name}" />
 
