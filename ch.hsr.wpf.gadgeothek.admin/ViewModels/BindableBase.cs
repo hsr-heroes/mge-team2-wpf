@@ -21,7 +21,7 @@ namespace ch.hsr.wpf.gadgeothek.admin.ViewModels
             return true;
         }
 
-        protected void OnPropertyChanged(string name = null)
+        private void OnPropertyChanged(string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
