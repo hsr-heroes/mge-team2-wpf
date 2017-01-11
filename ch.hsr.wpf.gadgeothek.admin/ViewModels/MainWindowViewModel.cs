@@ -49,8 +49,10 @@ namespace ch.hsr.wpf.gadgeothek.admin.ViewModels
 
             var gadgets = libraryAdminService.GetAllGadgets();
 
-
-            if (gadgets.Count > 0)
+            if(gadgets == null)
+            {
+                MessageBox.Show("Konnte Gadgets nicht vom Server laden.", "Serverfehler", MessageBoxButton.OK);
+            } else if (gadgets.Count > 0)
             {
                 Gadgets = new ObservableCollection<Gadget>(gadgets);
 
@@ -63,7 +65,11 @@ namespace ch.hsr.wpf.gadgeothek.admin.ViewModels
 
 
             var loans = libraryAdminService.GetAllLoans();
-            if (loans.Count > 0)
+            if (loans == null)
+            {
+                MessageBox.Show("Konnte Ausleihen nicht vom Server laden.", "Serverfehler", MessageBoxButton.OK);
+                return;
+            } else if (loans.Count > 0)
             {
                 Loans = new ObservableCollection<Loan>(loans);
 
@@ -78,7 +84,7 @@ namespace ch.hsr.wpf.gadgeothek.admin.ViewModels
                     App.Current.Dispatcher.Invoke(() =>
                     {
                         loans = libraryAdminService.GetAllLoans();
-                        if (loans.Count > 0)
+                        if (loans != null)
                         {
                             Loans.Clear();
 
